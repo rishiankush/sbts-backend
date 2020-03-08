@@ -274,7 +274,8 @@ async function mail(email_template, formData, res) {
             formData: formData
         }
       }).then(() => {
-            res.status(200).json({ statusCode: 200, message: 'email has been sent!' });
+          console.log('checking console here ******** ')
+            // res.status(200).json({ statusCode: 200, message: 'email has been sent!' });
         });
     
 }
