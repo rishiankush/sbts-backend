@@ -251,8 +251,8 @@ async function mail(email_template, formData, res) {
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        port: 465,
+        secure: true,
         auth: {
             user: 'ankushrishi5@gmail.com', // generated ethereal user
             pass: 'Code@mateur123#$#', // generated ethereal password
