@@ -253,6 +253,7 @@ async function mail(email_template, formData, res) {
         host: 'smtp.gmail.com',
         port: 465,
         secure: true,
+        service: 'Gmail',
         auth: {
             user: 'ankushrishi5@gmail.com', // generated ethereal user
             pass: 'Code@mateur123#$#', // generated ethereal password
@@ -275,7 +276,7 @@ async function mail(email_template, formData, res) {
         }
       }).then(() => {
           console.log('checking console here ******** ')
-            // res.status(200).json({ statusCode: 200, message: 'email has been sent!' });
+            res.status(200).json({ statusCode: 200, message: 'email has been sent!' });
         });
     
 }
