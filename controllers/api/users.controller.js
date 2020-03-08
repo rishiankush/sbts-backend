@@ -255,8 +255,8 @@ async function mail(email_template, formData, res) {
         secure: true,
         service: 'Gmail',
         auth: {
-            user: 'ankushrishi5@gmail.com', // generated ethereal user
-            pass: 'Code@mateur123#$#', // generated ethereal password
+            user: 'info@systalsoft.com', // generated ethereal user
+            pass: 'Gurpreet@Syst@lsoft123#', // generated ethereal password
         },
     });
     const email = new Email({
