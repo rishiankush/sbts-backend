@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb5
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Mar 04, 2020 at 08:41 PM
--- Server version: 5.7.29-0ubuntu0.18.04.1
--- PHP Version: 7.2.25-1+ubuntu18.04.1+deb.sury.org+1
+-- Host: localhost
+-- Generation Time: Mar 08, 2020 at 08:40 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -23,16 +25,40 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `candidates`
+--
+
+CREATE TABLE `candidates` (
+  `id` int(11) NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `company_name` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `city` varchar(255) NOT NULL,
+  `state` varchar(255) NOT NULL,
+  `postal_code` varchar(255) NOT NULL,
+  `country` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `details` varchar(255) NOT NULL,
+  `cv_path` varchar(255) NOT NULL,
+  `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
+  `updatedAt` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `images`
 --
 
 CREATE TABLE `images` (
   `id` int(11) NOT NULL,
   `user_id` int(50) DEFAULT NULL,
-  `path` text,
-  `status` tinyint(1) DEFAULT '1',
-  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` datetime DEFAULT CURRENT_TIMESTAMP
+  `path` text DEFAULT NULL,
+  `status` tinyint(1) DEFAULT 1,
+  `createdAt` datetime DEFAULT current_timestamp(),
+  `updatedAt` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -54,8 +80,8 @@ CREATE TABLE `users` (
   `password` varchar(255) DEFAULT NULL,
   `lat` decimal(10,8) DEFAULT NULL,
   `lng` decimal(11,8) DEFAULT NULL,
-  `status` tinyint(4) DEFAULT '1',
-  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `status` tinyint(4) DEFAULT 1,
+  `createdAt` datetime DEFAULT current_timestamp(),
   `updatedAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -81,8 +107,8 @@ CREATE TABLE `vehicle_specs` (
   `engine_displacement` varchar(255) DEFAULT NULL,
   `average` varchar(255) DEFAULT NULL,
   `engine_type` varchar(255) DEFAULT NULL,
-  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `createdAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updatedAt` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -95,6 +121,12 @@ INSERT INTO `vehicle_specs` (`id`, `chasis_no`, `name`, `model`, `colour`, `engi
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `candidates`
+--
+ALTER TABLE `candidates`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `images`
@@ -119,20 +151,30 @@ ALTER TABLE `vehicle_specs`
 --
 
 --
+-- AUTO_INCREMENT for table `candidates`
+--
+ALTER TABLE `candidates`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `images`
 --
 ALTER TABLE `images`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
 --
 -- AUTO_INCREMENT for table `vehicle_specs`
 --
 ALTER TABLE `vehicle_specs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

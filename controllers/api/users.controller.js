@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 var models = require('../../models/index');
 var User = models.user;
 var Image = models.image;
+var Candidate = models.candidate;
 
 require('dotenv').config();
 var moment = require('moment');
@@ -268,22 +269,22 @@ async function mail(email_template, formData, res) {
         transport: transporter,
         send: true,
         preview: false,
-      });
-  
-      email.send({
+    });
+
+    email.send({
         template: email_template,
         message: {
-          from: 'SBTS <no-reply@stbs.com>',
-          to: formData.email,
+            from: 'SBTS <no-reply@stbs.com>',
+            to: formData.email,
         },
         locals: {
             formData: formData
         }
-      }).then(() => {
-          console.log('checking console here ******** ')
-            res.status(200).json({ statusCode: 200, message: 'email has been sent!' });
-        });
-    
+    }).then(() => {
+        console.log('checking console here ******** ')
+        res.status(200).json({ statusCode: 200, message: 'email has been sent!' });
+    });
+
 }
 
 const contact = async (req, res) => {
@@ -301,36 +302,55 @@ const contact = async (req, res) => {
             res.status(200).json({ statusCode: 400, message: validate.errors });
         } else {
             console.log("Before Mail")
-            mail('hello',formData, res);
+            mail('hello', formData, res);
             console.log("After Mail")
         }
     });
 }
 
 const carrers = async (req, res) => {
-    const formData = req.body;
-    const validate = new Validator(formData, {
-        first_name: 'required|string',
-        last_name: 'required|string',
-        company_name: 'required|string',
-        address: 'required|string',
-        city: 'required|string',
-        state: 'required|string',
-        postal_code: 'required|string',
-        country: 'required|string',
-        email: 'required|email',
-        phone: 'required|integer',
-        details: 'required|string'
-    });
-    validate.check().then(async (matched) => {
-        if (!matched) {
-            res.status(200).json({ statusCode: 400, message: validate.errors });
-        } else {
-            console.log("Before Mail")
-            mail('careers',formData, res);
-            console.log("After Mail")
-        }
-    });
+    if (typeof req.files !== "undefined" && req.files !== null) {
+        const formData = req.body;
+        formData.cv = req.files.cv;
+        console.log('formData ------', formData);
+        const validate = new Validator(formData, {
+            first_name: 'required|string',
+            last_name: 'required|string',
+            company_name: 'required|string',
+            address: 'required|string',
+            city: 'required|string',
+            state: 'required|string',
+            postal_code: 'required|string',
+            country: 'required|string',
+            email: 'required|email',
+            phone: 'required|integer',
+            details: 'required|string',
+            cv: 'mime:doc,docx,pdf'
+        });
+        validate.check().then(async (matched) => {
+            if (!matched) {
+                res.status(200).json({ statusCode: 400, message: validate.errors });
+            } else {
+                const full_name = moment().valueOf() + "_" + formData.cv.name;
+                formData.cv.mv(appRoot + '/public/resumes/' + full_name, function (err) {
+                    if (err) {
+                        console.log('upload err', err);
+                    } else {
+                        formData.cv_path = process.env.CV_UPLOAD_URL + full_name;
+                        Candidate.create(formData, async function (err, candidate_reg) {
+                            console.log('err ----', err);
+                            console.log('candidate_reg ----', candidate_reg);
+                            if(candidate_reg){
+                                mail('careers', formData, res);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    } else {
+        res.status(200).json({ statusCode: 404, message: "Please upload your resume." });
+    }
 }
 
 module.exports = {
