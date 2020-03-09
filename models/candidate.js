@@ -3,7 +3,6 @@ module.exports = (sequelize, DataTypes) => {
   const Candidate = sequelize.define('candidate', {
     	first_name:   { type: DataTypes.STRING(255), allowNull: true },
 		last_name:    { type: DataTypes.STRING(255), allowNull: true },
-		company_name: { type: DataTypes.STRING(255), allowNull: true },
 		address:      { type: DataTypes.STRING(255), allowNull: true },
 		city: 		  { type: DataTypes.STRING(255), allowNull: true },
 		state:        { type: DataTypes.STRING(255), allowNull: true},

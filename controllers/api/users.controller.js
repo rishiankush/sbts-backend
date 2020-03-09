@@ -248,7 +248,7 @@ const checkUserExists = async (req, res) => {
 }
 
 async function mail(email_template, formData, res) {
-    console.log("==========================================");
+    console.log("==========================================",formData);
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
         // pool: true,
@@ -316,7 +316,7 @@ const carrers = async (req, res) => {
         const validate = new Validator(formData, {
             first_name: 'required|string',
             last_name: 'required|string',
-            company_name: 'required|string',
+            company_name: 'string',
             address: 'required|string',
             city: 'required|string',
             state: 'required|string',
