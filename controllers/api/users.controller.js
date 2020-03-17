@@ -268,7 +268,7 @@ async function mail(email_template, formData, res) {
     const email = new Email({
         transport: transporter,
         send: true,
-        preview: false,
+        preview: true,
     });
 
     email.send({
@@ -317,13 +317,14 @@ const carrers = async (req, res) => {
             first_name: 'required|string',
             last_name: 'required|string',
             company_name: 'string',
-            address: 'required|string',
-            city: 'required|string',
-            state: 'required|string',
-            postal_code: 'required|string',
-            country: 'required|string',
+            address: 'string',
+            city: 'string',
+            state: 'string',
+            postal_code: 'string',
+            country: 'string',
             email: 'required|email',
             phone: 'required|integer',
+            preferred_contact: 'required|string',
             details: 'required|string',
             cv: 'mime:doc,docx,pdf'
         });
